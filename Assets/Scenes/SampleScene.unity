@@ -375,6 +375,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateSource: {fileID: 1633767113}
   circleObjectPrefab: {fileID: 123105097934877830, guid: baf361432bef4447caa89b35bcad8a3b, type: 3}
+  pendulumPrefab: {fileID: 7264048897155644832, guid: 0bfa7b974a760468ab92737743df10f3, type: 3}
+  fieldPrefab: {fileID: 4921362438192396400, guid: 7a16a7a98d96d4aa997fc906d94587d9, type: 3}
+  gameConfig: {fileID: 11400000, guid: d591210b5eb364c64bea6a292b4853f8, type: 2}
 --- !u!114 &1633767111
 MonoBehaviour:
   m_ObjectHideFlags: 0

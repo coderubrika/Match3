@@ -26,6 +26,7 @@ namespace Test3
 
         public void Init()
         {
+            timer?.Dispose();
             columnLevels = new int[3];
             fieldFill = new CircleColor[3, 3];
             fieldNotifiers = new TriggerNotifier[3, 3];
