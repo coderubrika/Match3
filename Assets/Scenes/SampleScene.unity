@@ -374,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateSource: {fileID: 1633767113}
+  circleObjectPrefab: {fileID: 123105097934877830, guid: baf361432bef4447caa89b35bcad8a3b, type: 3}
 --- !u!114 &1633767111
 MonoBehaviour:
   m_ObjectHideFlags: 0

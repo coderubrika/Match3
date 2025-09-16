@@ -161,7 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e705c0c30374a669b8a467ac6bfa5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  rb2D: {fileID: 4537548848402935924}
+  spriteRenderer: {fileID: 8154464039673010946}
   red: {r: 0.764151, g: 0.13336597, b: 0.13336597, a: 1}
   blue: {r: 0.13950695, g: 0.3742931, b: 0.8962264, a: 1}
   green: {r: 0.25792095, g: 0.8679245, b: 0.2640492, a: 1}
