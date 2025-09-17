@@ -36,6 +36,10 @@ namespace Test3.PlayStates
                 session.Context.RemoveUnit(units.Item1);
                 session.Context.RemoveUnit(units.Item2);
                 session.Context.RemoveUnit(units.Item3);
+                
+                pool.Despawn(units.Item1);
+                pool.Despawn(units.Item2);
+                pool.Despawn(units.Item3);
             });
         }
     }

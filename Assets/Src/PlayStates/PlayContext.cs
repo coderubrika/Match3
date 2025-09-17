@@ -66,6 +66,16 @@ namespace Test3.PlayStates
         public void RemoveUnit(CircleObject unit)
         {
             Score += unit.Score;
+            spawnedUnits.Remove(unit);
+        }
+
+        public void PushLastUnit()
+        {
+            if (LastUnit == null)
+                return;
+            
+            spawnedUnits.Add(LastUnit);
+            ClearLastUnit();
         }
     }
 }

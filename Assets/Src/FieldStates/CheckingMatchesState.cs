@@ -37,7 +37,10 @@ namespace Test3
                 var b = units[line.Item3, line.Item4];
                 var c = units[line.Item5, line.Item6];
 
-                if (a.ColorType != CircleColor.None && a.ColorType == b.ColorType && b.ColorType == c.ColorType)
+                if (a == null || b == null || c == null)
+                    continue;
+                
+                if (a.ColorType == b.ColorType && b.ColorType == c.ColorType)
                 {
                     context.ExcludeUnits((a, b, c));
                     context.SetWaitDropAllUnits(new Timer(updateSource, router.GoTo<RecalculationUnitsState>, 1f));
