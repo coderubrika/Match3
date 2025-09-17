@@ -6,11 +6,18 @@ namespace Test3
     {
         [SerializeField] private Rigidbody2D rb2D;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        
         [SerializeField] private Color red;
         [SerializeField] private Color blue;
         [SerializeField] private Color green;
 
-        public int Score { get; private set; }
+        [SerializeField] private int redScore;
+        [SerializeField] private int blueScore;
+        [SerializeField] private int greenScore;
+
+        public int Score => ColorType == CircleColor.Blue ? blueScore
+            : ColorType == CircleColor.Green ? greenScore
+            : ColorType == CircleColor.Red ? redScore : 0;
         
         public Rigidbody2D Rb2D => rb2D;
         
@@ -26,11 +33,6 @@ namespace Test3
                 CircleColor.Green => green,
                 _ => new Color(0,0,0,0)
             };
-        }
-
-        public void SetScore(int score)
-        {
-            Score = score;
         }
     }
     

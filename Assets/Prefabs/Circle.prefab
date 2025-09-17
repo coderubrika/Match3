@@ -166,3 +166,6 @@ MonoBehaviour:
   red: {r: 0.764151, g: 0.13336597, b: 0.13336597, a: 1}
   blue: {r: 0.13950695, g: 0.3742931, b: 0.8962264, a: 1}
   green: {r: 0.25792095, g: 0.8679245, b: 0.2640492, a: 1}
+  redScore: 10
+  blueScore: 5
+  greenScore: 2
