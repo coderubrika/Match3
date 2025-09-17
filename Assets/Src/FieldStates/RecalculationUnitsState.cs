@@ -35,6 +35,7 @@ namespace Test3
                     return;
                 
                 context.ClearTriggerUnitSubscriptions();
+                context.SetActiveNotifiers(false);
                 
                 for (int j = 0; j < columnLevels.Length; j++)
                 {
@@ -53,6 +54,8 @@ namespace Test3
                 
                 router.GoTo<CheckingMatchesState>();
             };
+            
+            context.SetActiveNotifiers(true);
         }
     }
 }
