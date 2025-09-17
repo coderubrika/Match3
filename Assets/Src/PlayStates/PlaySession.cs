@@ -4,14 +4,14 @@ namespace Test3.PlayStates
 {
     public class PlaySession
     {
-        private readonly PlayStatesFactory playStatesFactory;
+        private readonly StateFactory<IPlayState> playStatesFactory;
         private IPlayState state;
         public PlayContext Context { get; }
         
         public PlaySession(PlayContext context)
         {
             Context = context;
-            playStatesFactory = ServiceLocator.Instance.Get<PlayStatesFactory>();
+            playStatesFactory = ServiceLocator.Instance.Get<StateFactory<IPlayState>>();
             state = playStatesFactory.Get<InitialState>();
             state.Apply(this);
         }

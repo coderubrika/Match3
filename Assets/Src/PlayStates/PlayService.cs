@@ -18,6 +18,8 @@ namespace Test3.PlayStates
             add => context.OnFinish += value;
             remove => context.OnFinish -= value;
         }
+
+        public int Score => context.Score;
         
         public PlayService()
         {

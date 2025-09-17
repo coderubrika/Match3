@@ -25,7 +25,7 @@ namespace Test3
             ServiceLocator.Instance.BindInstance(new MonoPool<CircleObject>(circleObjectPrefab, circlePoolRoot));
             ServiceLocator.Instance.BindInstance(fieldPrefab);
             ServiceLocator.Instance.BindInstance(pendulumPrefab);
-            ServiceLocator.Instance.BindInstance(new PlayStatesFactory());
+            ServiceLocator.Instance.BindInstance(new StateFactory<IPlayState>());
             ServiceLocator.Instance.BindInstance(new PlayService());
         }
 

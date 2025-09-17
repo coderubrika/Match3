@@ -24,8 +24,8 @@ namespace Test3.PlayStates
             {
                 session.Context.WaitFinishAnimation?.Dispose();
 
-                foreach (var circle in session.Context.SpawnedCircles)
-                    pool.Despawn(circle);
+                foreach (var unit in session.Context.SpawnedUnits)
+                    pool.Despawn(unit);
                 
                 session.Context.BroadcastFinish();
             }, 2f));

@@ -13,23 +13,30 @@ namespace Test3.PlayStates
         
         public void Apply(PlaySession session)
         {
-            CircleObject circleObject = pool.Spawn();
-            circleObject.transform.SetParent(session.Context.GameRoot);
-            session.Context.AddSpawnedCircle(circleObject);
-            circleObject.gameObject.SetActive(true);
-            session.Context.Pendulum.SetupOtherCircle(circleObject);
+            CircleObject unit = pool.Spawn();
+            unit.transform.SetParent(session.Context.GameRoot);
+            session.Context.AddSpawnedUnit(unit);
+            unit.gameObject.SetActive(true);
+            session.Context.Pendulum.SetupOtherCircle(unit);
             
             session.Context.SetWaitCircleOnField(new Timer(
                 updateSource,
                 () =>
                 {
-                    pool.Despawn(session.Context.LastSpawned);
+                    pool.Despawn(session.Context.LastUnit);
+                    session.Context.ClearLastUnit();
                     session.WaitTouch();
                 }, 
                 4));
             
             session.Context.Field.OnNext.AddListener(session.WaitTouch);
             session.Context.Field.OnFinish.AddListener(session.Finish);
+            session.Context.Field.OnExclude.AddListener(units =>
+            {
+                session.Context.RemoveUnit(units.Item1);
+                session.Context.RemoveUnit(units.Item2);
+                session.Context.RemoveUnit(units.Item3);
+            });
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Test3
         [SerializeField] private Color blue;
         [SerializeField] private Color green;
 
+        public int Score { get; private set; }
+        
         public Rigidbody2D Rb2D => rb2D;
         
         public CircleColor ColorType { get; private set; } = CircleColor.None;
@@ -24,6 +26,11 @@ namespace Test3
                 CircleColor.Green => green,
                 _ => new Color(0,0,0,0)
             };
+        }
+
+        public void SetScore(int score)
+        {
+            Score = score;
         }
     }
     

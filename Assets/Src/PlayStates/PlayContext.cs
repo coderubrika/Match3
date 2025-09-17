@@ -6,7 +6,8 @@ namespace Test3.PlayStates
 {
     public class PlayContext
     {
-        private readonly Stack<CircleObject> spawnedCircles = new();
+        private readonly HashSet<CircleObject> spawnedUnits = new();
+        public CircleObject LastUnit { get; private set; }
         
         public IDisposable WaitCircleOnField { get; private set; }
         public IDisposable WaitFinishAnimation { get; private set; }
@@ -18,9 +19,11 @@ namespace Test3.PlayStates
 
         public Transform GameRoot { get; }
         
-        public IEnumerable<CircleObject> SpawnedCircles => spawnedCircles;
+        public int Score { get; private set; }
+        
+        public IEnumerable<CircleObject> SpawnedUnits => spawnedUnits;
 
-        public CircleObject LastSpawned => spawnedCircles.Pop();
+        //public CircleObject LastSpawned => spawnedUnits.Pop();
         
         public PlayContext(
             Field field, 
@@ -32,11 +35,19 @@ namespace Test3.PlayStates
             GameRoot = gameRoot;
         }
 
-        public void AddSpawnedCircle(CircleObject circleObject)
+        public void AddSpawnedUnit(CircleObject unit)
         {
-            spawnedCircles.Push(circleObject);
+            if (LastUnit != null)
+                spawnedUnits.Add(LastUnit);
+            
+            LastUnit = unit;
         }
 
+        public void ClearLastUnit()
+        {
+            LastUnit = null;
+        }
+        
         public void SetWaitCircleOnField(IDisposable waitDisposable)
         {
             WaitCircleOnField = waitDisposable;
@@ -50,6 +61,11 @@ namespace Test3.PlayStates
         public void BroadcastFinish()
         {
             OnFinish?.Invoke();
+        }
+        
+        public void RemoveUnit(CircleObject unit)
+        {
+            Score += unit.Score;
         }
     }
 }

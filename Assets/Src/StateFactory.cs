@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace Test3.PlayStates
+namespace Test3
 {
-    public class PlayStatesFactory
+    public class StateFactory<T>
     {
-        private readonly Dictionary<Type, IPlayState> states = new();
+        private readonly Dictionary<Type, T> states = new();
 
         public TState Get<TState>()
-            where TState : IPlayState, new()
+            where TState : T, new()
         {
             Type typeState = typeof(TState);
             if (states.TryGetValue(typeState, out var state))
