@@ -12,20 +12,20 @@ namespace Test3.PlayStates
         }
         
         
-        public void Apply(PlaySession session)
+        public void Apply(StateRouter<IPlayState> router, PlayContext context)
         {
-            session.Context.ClearParticleDisposables();
-            session.Context.Field.Init();
-            session.Context.Field.gameObject.SetActive(true);
+            context.ClearParticleDisposables();
+            context.Field.Init();
+            context.Field.gameObject.SetActive(true);
             
-            session.Context.Pendulum.gameObject.SetActive(true);
-            session.Context.Pendulum.Init(
+            context.Pendulum.gameObject.SetActive(true);
+            context.Pendulum.Init(
                 gameConfig.PendulumDistance,
                 Vector2.right * gameConfig.InitialPendulumForceValue);
             
-            session.Context.Pendulum.SetColor((CircleColor)Random.Range(1, 4));
+            context.Pendulum.SetColor((CircleColor)Random.Range(1, 4));
             
-            session.WaitTouch();
+            router.GoTo<WaitTouchState>();
         }
     }
 }

@@ -5,25 +5,17 @@ namespace Test3.PlayStates
     public class PlaySession
     {
         private readonly StateFactory<IPlayState> playStatesFactory;
+        private readonly StateRouter<IPlayState> router;
+        private readonly PlayContext context;
+        
         private IPlayState state;
-        public PlayContext Context { get; }
         
         public PlaySession(PlayContext context)
         {
-            Context = context;
+            this.context = context;
             playStatesFactory = ServiceLocator.Instance.Get<StateFactory<IPlayState>>();
-            state = playStatesFactory.Get<InitialState>();
-            state.Apply(this);
-        }
-
-        public void WaitTouch()
-        {
-            Type stateType = state.GetType();   
-            if (stateType != typeof(InitialState) && stateType != typeof(DropCircleState))
-                return;
-            
-            state = playStatesFactory.Get<WaitTouchState>();
-            state.Apply(this);
+            router = new StateRouter<IPlayState>(ChangeState, playStatesFactory);
+            router.GoTo<InitialState>();
         }
 
         public void Touch()
@@ -31,17 +23,13 @@ namespace Test3.PlayStates
             if (state.GetType() != typeof(WaitTouchState))
                 return;
             
-            state = playStatesFactory.Get<DropCircleState>();
-            state.Apply(this);
+            router.GoTo<DropCircleState>();
         }
-
-        public void Finish()
+        
+        private void ChangeState(IPlayState newState)
         {
-            if (state.GetType() != typeof(DropCircleState))
-                return;
-            
-            state = playStatesFactory.Get<FinishState>();
-            state.Apply(this);
+            state = newState;
+            state.Apply(router, context);
         }
     }
 }

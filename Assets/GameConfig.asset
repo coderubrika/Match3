@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pendulumDistance: 2.1
   initialPendulumForceValue: 100
+  dropTime: 4
+  dropFromTriggerTime: 0.5

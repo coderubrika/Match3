@@ -9,6 +9,7 @@ namespace Test3
         private void Awake()
         {
             installer.Install();
+            Application.targetFrameRate = 120;
             ServiceLocator.Instance.Get<ScreenService>().GoTo<StartScreen>();
         }
     }

@@ -11,23 +11,23 @@ namespace Test3.PlayStates
             pool = ServiceLocator.Instance.Get<MonoPool<CircleObject>>();
         }
         
-        public void Apply(PlaySession session)
+        public void Apply(StateRouter<IPlayState> router, PlayContext context)
         {
-            session.Context.Field.OnFinish.RemoveAllListeners();
-            session.Context.Field.OnNext.RemoveAllListeners();
-            session.Context.Field.gameObject.SetActive(false);
+            context.Field.OnFinish.RemoveAllListeners();
+            context.Field.OnNext.RemoveAllListeners();
+            context.Field.gameObject.SetActive(false);
             
-            session.Context.Pendulum.gameObject.SetActive(false);
-            session.Context.WaitCircleOnField?.Dispose();
+            context.Pendulum.gameObject.SetActive(false);
+            context.WaitCircleOnField?.Dispose();
             
-            session.Context.SetWaitFinishAnimation(new Timer(updateSource, () =>
+            context.SetWaitFinishAnimation(new Timer(updateSource, () =>
             {
-                session.Context.WaitFinishAnimation?.Dispose();
+                context.WaitFinishAnimation?.Dispose();
 
-                foreach (var unit in session.Context.SpawnedUnits)
+                foreach (var unit in context.SpawnedUnits)
                     pool.Despawn(unit);
                 
-                session.Context.BroadcastFinish();
+                context.BroadcastFinish();
             }, 2f));
             
             

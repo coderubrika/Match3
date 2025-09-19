@@ -5,40 +5,43 @@ namespace Test3.PlayStates
         private readonly MonoPool<CircleObject> pool;
         private readonly MonoPool<ParticleSystemWrapper> particlesPool;
         private readonly UpdateSource updateSource;
+        private readonly float dropTime;
         
         public DropCircleState()
         {
+            GameConfig gameConfig = ServiceLocator.Instance.Get<GameConfig>();
+            dropTime = gameConfig.DropTime;
             pool = ServiceLocator.Instance.Get<MonoPool<CircleObject>>();
             particlesPool = ServiceLocator.Instance.Get<MonoPool<ParticleSystemWrapper>>();
             updateSource = ServiceLocator.Instance.Get<UpdateSource>();
         }
         
-        public void Apply(PlaySession session)
+        public void Apply(StateRouter<IPlayState> router, PlayContext context)
         {
-            session.Context.ClearParticleDisposables();
+            context.ClearParticleDisposables();
             CircleObject unit = pool.Spawn();
-            unit.transform.SetParent(session.Context.GameRoot);
-            session.Context.AddSpawnedUnit(unit);
+            unit.transform.SetParent(context.GameRoot);
+            context.AddSpawnedUnit(unit);
             unit.gameObject.SetActive(true);
-            session.Context.Pendulum.SetupOtherCircle(unit);
+            context.Pendulum.SetupOtherCircle(unit);
             
-            session.Context.SetWaitCircleOnField(new Timer(
+            context.SetWaitCircleOnField(new Timer(
                 updateSource,
                 () =>
                 {
-                    pool.Despawn(session.Context.LastUnit);
-                    session.Context.ClearLastUnit();
-                    session.WaitTouch();
+                    pool.Despawn(context.LastUnit);
+                    context.ClearLastUnit();
+                    router.GoTo<WaitTouchState>();
                 }, 
-                4));
+                dropTime));
             
-            session.Context.Field.OnNext.AddListener(session.WaitTouch);
-            session.Context.Field.OnFinish.AddListener(session.Finish);
-            session.Context.Field.OnExclude.AddListener(units =>
+            context.Field.OnNext.AddListener(router.GoTo<WaitTouchState>);
+            context.Field.OnFinish.AddListener(router.GoTo<FinishState>);
+            context.Field.OnExclude.AddListener(units =>
             {
-                RemoveUnit(session.Context, units.Item1);
-                RemoveUnit(session.Context, units.Item2);
-                RemoveUnit(session.Context, units.Item3);
+                RemoveUnit(context, units.Item1);
+                RemoveUnit(context, units.Item2);
+                RemoveUnit(context, units.Item3);
             });
         }
 

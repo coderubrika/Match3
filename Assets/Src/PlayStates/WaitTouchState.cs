@@ -4,15 +4,15 @@ namespace Test3.PlayStates
 {
     public class WaitTouchState : IPlayState
     {
-        public void Apply(PlaySession session)
+        public void Apply(StateRouter<IPlayState> router, PlayContext context)
         {
-            session.Context.PushLastUnit();
-            session.Context.Field.OnNext.RemoveAllListeners();
-            session.Context.Field.OnFinish.RemoveAllListeners();
-            session.Context.Field.OnExclude.RemoveAllListeners();
+            context.PushLastUnit();
+            context.Field.OnNext.RemoveAllListeners();
+            context.Field.OnFinish.RemoveAllListeners();
+            context.Field.OnExclude.RemoveAllListeners();
             
-            session.Context.WaitCircleOnField?.Dispose();
-            session.Context.Pendulum.SetColor((CircleColor)Random.Range(1, 4));
+            context.WaitCircleOnField?.Dispose();
+            context.Pendulum.SetColor((CircleColor)Random.Range(1, 4));
         }
     }
 }

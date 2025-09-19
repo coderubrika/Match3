@@ -5,10 +5,13 @@ namespace Test3
     public class WaitUnitState : IFieldState
     {
         private readonly UpdateSource updateSource;
+        private readonly float dropFromTriggerTime;
         
         public WaitUnitState()
         {
             updateSource = ServiceLocator.Instance.Get<UpdateSource>();
+            GameConfig gameConfig = ServiceLocator.Instance.Get<GameConfig>();
+            dropFromTriggerTime = gameConfig.DropFromTriggerTime;
         }
         
         public void Apply(StateRouter<IFieldState> router, FieldContext context)
@@ -30,7 +33,7 @@ namespace Test3
                 var nextNotifier = context.Notifiers[nextLevel, coords.ColumnIdx];
                 nextNotifier.gameObject.SetActive(nextNotifier != notifier);
                 
-                context.SetWaitDropUnit(new Timer(updateSource, router.GoTo<CheckingMatchesState>, 1f));
+                context.SetWaitDropUnit(new Timer(updateSource, router.GoTo<CheckingMatchesState>, dropFromTriggerTime));
             };
             
             context.Next();
