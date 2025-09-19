@@ -3,16 +3,19 @@ namespace Test3.PlayStates
     public class DropCircleState : IPlayState
     {
         private readonly MonoPool<CircleObject> pool;
+        private readonly MonoPool<ParticleSystemWrapper> particlesPool;
         private readonly UpdateSource updateSource;
         
         public DropCircleState()
         {
             pool = ServiceLocator.Instance.Get<MonoPool<CircleObject>>();
+            particlesPool = ServiceLocator.Instance.Get<MonoPool<ParticleSystemWrapper>>();
             updateSource = ServiceLocator.Instance.Get<UpdateSource>();
         }
         
         public void Apply(PlaySession session)
         {
+            session.Context.ClearParticleDisposables();
             CircleObject unit = pool.Spawn();
             unit.transform.SetParent(session.Context.GameRoot);
             session.Context.AddSpawnedUnit(unit);
@@ -33,14 +36,26 @@ namespace Test3.PlayStates
             session.Context.Field.OnFinish.AddListener(session.Finish);
             session.Context.Field.OnExclude.AddListener(units =>
             {
-                session.Context.RemoveUnit(units.Item1);
-                session.Context.RemoveUnit(units.Item2);
-                session.Context.RemoveUnit(units.Item3);
-                
-                pool.Despawn(units.Item1);
-                pool.Despawn(units.Item2);
-                pool.Despawn(units.Item3);
+                RemoveUnit(session.Context, units.Item1);
+                RemoveUnit(session.Context, units.Item2);
+                RemoveUnit(session.Context, units.Item3);
             });
+        }
+
+        private void RemoveUnit(PlayContext context, CircleObject unit)
+        {
+            var particle = particlesPool.Spawn();
+            particle.SetColor(unit.Color);
+            particle.transform.position = unit.transform.position;
+            particle.gameObject.SetActive(true);
+            context.AddParticleToDisposable(
+                new PlayerHandler<ParticleSystemWrapper>(
+                    updateSource, 
+                    particle, 
+                    p => particlesPool.Despawn(p)));
+            context.RemoveUnit(unit);
+            pool.Despawn(unit);
+            
         }
     }
 }

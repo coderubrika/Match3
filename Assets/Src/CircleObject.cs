@@ -19,6 +19,10 @@ namespace Test3
             : ColorType == CircleColor.Green ? greenScore
             : ColorType == CircleColor.Red ? redScore : 0;
         
+        public Color Color => ColorType == CircleColor.Blue ? blue
+            : ColorType == CircleColor.Green ? green
+            : ColorType == CircleColor.Red ? red : new Color(0,0,0,0);
+        
         public Rigidbody2D Rb2D => rb2D;
         
         public CircleColor ColorType { get; private set; } = CircleColor.None;

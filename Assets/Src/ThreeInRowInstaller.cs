@@ -10,13 +10,16 @@ namespace Test3
         [SerializeField] private Pendulum pendulumPrefab;
         [SerializeField] private Field fieldPrefab;
         [SerializeField] private GameConfig gameConfig;
+        [SerializeField] private ParticleSystemWrapper unitExplosionPrefab;
         
         private Transform circlePoolRoot;
+        private Transform unitExplosionPoolRoot;
         
         public override void Install()
         {
             Setup();
             
+            ServiceLocator.Instance.BindInstance(new MonoPool<ParticleSystemWrapper>(unitExplosionPrefab, unitExplosionPoolRoot));
             ServiceLocator.Instance.BindInstance(gameConfig);
             ServiceLocator.Instance.BindInstance(new ScreensFactory("Screens", "UIRoot"));
             ServiceLocator.Instance.BindInstance(new ScreenService());
@@ -33,6 +36,9 @@ namespace Test3
         {
             circlePoolRoot = new GameObject("CirclesPoolRoot").transform;
             DontDestroyOnLoad(circlePoolRoot.gameObject);
+            
+            unitExplosionPoolRoot = new GameObject("UnitExplosionPoolRoot").transform;
+            DontDestroyOnLoad(unitExplosionPoolRoot.gameObject);
         }
     }
 }

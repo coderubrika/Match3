@@ -14,6 +14,7 @@ namespace Test3.PlayStates
         
         public void Apply(PlaySession session)
         {
+            session.Context.ClearParticleDisposables();
             session.Context.Field.Init();
             session.Context.Field.gameObject.SetActive(true);
             

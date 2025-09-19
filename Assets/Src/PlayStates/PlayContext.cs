@@ -7,11 +7,12 @@ namespace Test3.PlayStates
     public class PlayContext
     {
         private readonly HashSet<CircleObject> spawnedUnits = new();
+        private readonly List<IDisposable> particleDisposables = new();
+        
         public CircleObject LastUnit { get; private set; }
         
         public IDisposable WaitCircleOnField { get; private set; }
         public IDisposable WaitFinishAnimation { get; private set; }
-
         public event Action OnFinish; 
         
         public Field Field { get; }
@@ -76,6 +77,19 @@ namespace Test3.PlayStates
             
             spawnedUnits.Add(LastUnit);
             ClearLastUnit();
+        }
+
+        public void AddParticleToDisposable(IDisposable particleDisposable)
+        {
+            particleDisposables.Add(particleDisposable);
+        }
+
+        public void ClearParticleDisposables()
+        {
+            foreach (var disposable in particleDisposables)
+                disposable.Dispose();
+            
+            particleDisposables.Clear();
         }
     }
 }
